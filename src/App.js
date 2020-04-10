@@ -9,10 +9,12 @@ const App = () => {
     <Router>
       <>
         <Navbar />
-        <Switch>
-          <Route exact path={`${process.env.PUBLIC_URL}/`} compoennt={Home} />
-          <Route path={`${process.env.PUBLIC_URL}/register`} compoennt={Register} />
-        </Switch>
+        <div className="container">
+          <Switch>
+            <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />
+            <Route path={`${process.env.PUBLIC_URL}/register`} component={Register} />
+          </Switch>
+        </div>
       </>
     </Router>
   );
