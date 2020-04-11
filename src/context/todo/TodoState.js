@@ -13,14 +13,29 @@ export const TodoProvider = ({ children }) => {
 
   const getTodos = async () => {
     try {
-      const res = await axios.get('/api/todos', {
-        headers: {
-          authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-      });
+      const res = await axios.get('/api/todos', {});
 
       dispatch({
         type: 'get-todos',
+        payload: res.data.data,
+      });
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const addTodo = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post('/api/todos', formData, config);
+
+      dispatch({
+        type: 'add-todo',
         payload: res.data.data,
       });
     } catch (err) {
@@ -52,6 +67,7 @@ export const TodoProvider = ({ children }) => {
       value={{
         todos: state.todos,
         getTodos,
+        addTodo,
         deleteTodo,
         editTodo,
       }}

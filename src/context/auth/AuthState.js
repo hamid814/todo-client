@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import axios from 'axios';
 import AuthReducer from './AuthReducer';
+import setAuthHeader from '../../utils/setAuthHeader';
 
 const initialState = {
   token: null,
@@ -13,6 +14,12 @@ export const AuthContext = createContext(initialState);
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+
+  const loadUser = () => {
+    const token = localStorage.token;
+
+    setAuthHeader(token);
+  };
 
   const register = async (formData) => {
     const config = {
@@ -45,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenicated: state.isAuthenicated,
+        loadUser,
         register,
         login,
       }}

@@ -5,6 +5,11 @@ export default (state, action) => {
         ...state,
         todos: action.payload,
       };
+    case 'add-todo':
+      return {
+        ...state,
+        todos: [...state.todos, action.payload],
+      };
     case 'delete-todo':
       return {
         ...state,

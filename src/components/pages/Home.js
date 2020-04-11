@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from 'react';
-import axios from 'axios';
 import { TodoContext } from '../../context/todo/TodoState';
 import { AuthContext } from '../../context/auth/AuthState';
 import AddTodo from '../todos/AddTodo';
@@ -14,32 +13,17 @@ const Home = () => {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       loadUser();
+      getTodos();
     }
 
     // eslint-disable-next-line
   }, []);
 
-  const addTodo = async (todo) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-    };
-
-    try {
-      const res = await axios.post('/api/todos', todo, config);
-
-      console.log(res);
-      // setTodos([...todos, res.data.data]);
-    } catch (err) {}
-  };
-
-  if (isAuthenicated) {
+  if (!isAuthenicated) {
     return (
       <div className="home">
         <Todos todos={todos} />
-        <AddTodo addTodo={addTodo} />
+        <AddTodo />
       </div>
     );
   } else {

@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { TodoContext } from '../../context/todo/TodoState';
 
 import './addtodo.scss';
 
-const AddTodo = ({ addTodo }) => {
+const AddTodo = () => {
+  const { addTodo } = useContext(TodoContext);
+
   const [values, setValues] = useState({
     text: '',
     done: false,
