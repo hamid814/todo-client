@@ -1,0 +1,38 @@
+.todos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .todo-item {
+    background-color: #999;
+    color: #222;
+    border-radius: 5px;
+    width: 70%;
+    padding: 15px;
+    margin: 5px;
+
+    .delete {
+      float: right;
+      margin-left: 7px;
+      cursor: pointer;
+      padding: 0px 5px;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: rgb(240, 70, 70);
+      }
+    }
+
+    .edit {
+      float: right;
+      cursor: pointer;
+      padding: 0px 5px;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: rgb(236, 236, 75);
+      }
+    }
+  }
+}

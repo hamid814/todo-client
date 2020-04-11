@@ -1,37 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
+import { TodoContext } from '../../context/todo/TodoState';
+import { AuthContext } from '../../context/auth/AuthState';
 import AddTodo from '../todos/AddTodo';
 import Todos from '../todos/Todos';
 
 import './home.scss';
 
 const Home = () => {
-  const [isAuthenicated, setIsAuthenicated] = useState(false);
-  const [todos, setTodos] = useState([]);
+  const { getTodos, todos } = useContext(TodoContext);
+  const { isAuthenicated, loadUser } = useContext(AuthContext);
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      getTodos();
+      loadUser();
     }
 
     // eslint-disable-next-line
   }, []);
-
-  const getTodos = async () => {
-    try {
-      const res = await axios.get('/api/todos', {
-        headers: {
-          authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-      });
-
-      setIsAuthenicated(true);
-
-      setTodos(res.data.data);
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
 
   const addTodo = async (todo) => {
     const config = {
@@ -44,7 +30,8 @@ const Home = () => {
     try {
       const res = await axios.post('/api/todos', todo, config);
 
-      setTodos([...todos, res.data.data]);
+      console.log(res);
+      // setTodos([...todos, res.data.data]);
     } catch (err) {}
   };
 

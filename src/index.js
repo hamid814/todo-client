@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from './context/auth/AuthState';
+import { TodoProvider } from './context/todo/TodoState';
 
 const StateContainer = () => {
   return (
     <AuthProvider>
-      <App />
+      <TodoProvider>
+        <App />
+      </TodoProvider>
     </AuthProvider>
   );
 };

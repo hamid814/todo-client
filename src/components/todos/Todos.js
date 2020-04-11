@@ -1,9 +1,11 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 
+import './todos.scss';
+
 const todos = ({ todos }) => {
   return (
-    <div>
+    <div className="todos">
       {todos.map((todo) => (
         <TodoItem key={todo._id} todo={todo} />
       ))}
