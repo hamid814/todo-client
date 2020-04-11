@@ -11,15 +11,17 @@ const Home = () => {
   const { isAuthenicated, loadUser } = useContext(AuthContext);
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      loadUser();
-      getTodos();
-    }
+    loadUserAndGetTodos();
 
     // eslint-disable-next-line
   }, []);
 
-  if (!isAuthenicated) {
+  const loadUserAndGetTodos = async () => {
+    await loadUser();
+    await getTodos();
+  };
+
+  if (isAuthenicated) {
     return (
       <div className="home">
         <Todos todos={todos} />

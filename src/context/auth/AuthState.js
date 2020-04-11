@@ -8,6 +8,7 @@ const initialState = {
   isAuthenicated: false,
   user: null,
   error: null,
+  loading: true,
 };
 
 export const AuthContext = createContext(initialState);
@@ -15,10 +16,24 @@ export const AuthContext = createContext(initialState);
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const loadUser = () => {
+  const loadUser = async () => {
     const token = localStorage.token;
 
     setAuthHeader(token);
+
+    try {
+      const res = await axios.get('/api/auth/me');
+
+      dispatch({
+        type: 'user-loaded',
+        payload: res.data.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: 'auth-error',
+        payload: err,
+      });
+    }
   };
 
   const register = async (formData) => {
@@ -43,9 +58,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = (formDatat) => {
+  const login = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
     try {
+      const res = await axios.post('/api/auth/login', formData, config);
+
+      dispatch({
+        type: 'login-success',
+        payload: res.data.token,
+      });
+
+      loadUser();
     } catch (err) {}
+  };
+
+  const logout = () => {
+    dispatch({
+      type: 'logout',
+    });
   };
 
   return (
@@ -55,6 +90,7 @@ export const AuthProvider = ({ children }) => {
         loadUser,
         register,
         login,
+        logout,
       }}
     >
       {children}

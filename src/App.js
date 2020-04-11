@@ -4,6 +4,7 @@ import Navbar from './components/layout/navbar';
 import Home from './components/pages/Home';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 const App = () => {
   return (
@@ -12,7 +13,11 @@ const App = () => {
         <Navbar />
         <div className="container">
           <Switch>
-            <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />
+            <PrivateRoute
+              exact
+              path={`${process.env.PUBLIC_URL}/`}
+              component={Home}
+            />
             <Route
               path={`${process.env.PUBLIC_URL}/register`}
               component={Register}

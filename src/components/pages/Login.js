@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { AuthContext } from '../../context/auth/AuthState';
 
 import './login.scss';
 
 const Login = (props) => {
+  const { isAuthenicated, login } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (isAuthenicated) {
+      props.history.push(process.env.PUBLIC_URL + '/');
+    }
+    // eslint-disable-next-line
+  }, [isAuthenicated]);
+
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -20,18 +29,7 @@ const Login = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post('/api/auth/login', {
-        email: values.email,
-        password: values.password,
-      });
-
-      localStorage.setItem('token', res.data.token);
-
-      props.history.push('/');
-    } catch (err) {
-      console.log(err.response.data.message);
-    }
+    login(values);
   };
 
   return (

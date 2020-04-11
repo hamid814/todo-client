@@ -45,11 +45,7 @@ export const TodoProvider = ({ children }) => {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`/api/todos/${id}`, {
-        headers: {
-          authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-      });
+      await axios.delete(`/api/todos/${id}`);
 
       dispatch({
         type: 'delete-todo',
