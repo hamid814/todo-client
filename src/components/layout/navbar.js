@@ -2,14 +2,17 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logo.png';
 import { AuthContext } from '../../context/auth/AuthState';
+import { TodoContext } from '../../context/todo/TodoState';
 
 import './navbar.scss';
 
 const Navbar = () => {
   const { isAuthenicated, laoding, logout } = useContext(AuthContext);
+  const { clearData } = useContext(TodoContext);
 
   const onLogoutCLick = () => {
     logout();
+    clearData();
   };
 
   return (

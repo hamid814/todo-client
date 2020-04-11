@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthState';
 
 import './register.scss';
 
 const Register = (props) => {
-  const { isAuthenicated, register } = useContext(AuthContext);
+  const alertElem = useRef(null);
+
+  const { isAuthenicated, register, error, clearError } = useContext(
+    AuthContext
+  );
 
   const [values, setValues] = useState({
     name: '',
@@ -17,8 +21,16 @@ const Register = (props) => {
     if (isAuthenicated) {
       props.history.push('/');
     }
+
+    if (error) {
+      if (error === 'Duplicate field value entered') {
+        setAlert('User already exists');
+      } else {
+        setAlert(error, 3000);
+      }
+    }
     // eslint-disable-next-line
-  }, [isAuthenicated]);
+  }, [isAuthenicated, error]);
 
   const onChange = (e) => {
     setValues({
@@ -31,6 +43,15 @@ const Register = (props) => {
     e.preventDefault();
 
     register(values);
+  };
+
+  const setAlert = (msg, time = 3000) => {
+    alertElem.current.innerText = msg;
+
+    setTimeout(() => {
+      alertElem.current.innerHTML = '';
+      clearError();
+    }, time);
   };
 
   return (
@@ -70,6 +91,7 @@ const Register = (props) => {
           <input type="submit" value="Reginster" />
         </div>
       </form>
+      <div ref={alertElem} className="alert"></div>
       <div>
         already have an account?
         <Link to={process.env.PUBLIC_URL + '/login'}>login</Link>

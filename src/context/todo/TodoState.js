@@ -13,7 +13,7 @@ export const TodoProvider = ({ children }) => {
 
   const getTodos = async () => {
     try {
-      const res = await axios.get('/api/todos', {});
+      const res = await axios.get('/api/todos');
 
       dispatch({
         type: 'get-todos',
@@ -56,7 +56,24 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
-  const editTodo = (id) => {};
+  const editTodo = (id) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const clearData = () => {
+    dispatch({
+      type: 'clear-data',
+    });
+  };
 
   return (
     <TodoContext.Provider
@@ -66,6 +83,7 @@ export const TodoProvider = ({ children }) => {
         addTodo,
         deleteTodo,
         editTodo,
+        clearData,
       }}
     >
       {children}

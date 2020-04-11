@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        !isAuthenicated && loading ? (
+        !isAuthenicated && !loading ? (
           <Redirect to={process.env.PUBLIC_URL + '/login'} />
         ) : (
           <Component {...props} />

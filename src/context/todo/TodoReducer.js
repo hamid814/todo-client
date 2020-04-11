@@ -15,6 +15,11 @@ export default (state, action) => {
         ...state,
         todos: state.todos.filter((todo) => todo._id !== action.payload),
       };
+    case 'clear-data':
+      return {
+        ...state,
+        todos: [],
+      };
     default:
       return state;
   }

@@ -32,6 +32,7 @@ export default (state, action) => {
       };
     case 'auth-error':
     case 'logout':
+    case 'login-fail':
       localStorage.removeItem('token');
       return {
         ...state,
@@ -40,6 +41,11 @@ export default (state, action) => {
         token: null,
         isAuthenicated: false,
         error: action.payload,
+      };
+    case 'clear-error':
+      return {
+        ...state,
+        error: null,
       };
     default:
       return state;

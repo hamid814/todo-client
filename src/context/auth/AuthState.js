@@ -74,7 +74,12 @@ export const AuthProvider = ({ children }) => {
       });
 
       loadUser();
-    } catch (err) {}
+    } catch (err) {
+      dispatch({
+        type: 'login-fail',
+        payload: err.response.data.message,
+      });
+    }
   };
 
   const logout = () => {
@@ -83,14 +88,25 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const clearError = () => {
+    dispatch({
+      type: 'clear-error',
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
         isAuthenicated: state.isAuthenicated,
+        loading: state.loading,
+        user: state.user,
+        error: state.error,
+        token: state.token,
         loadUser,
         register,
         login,
         logout,
+        clearError,
       }}
     >
       {children}

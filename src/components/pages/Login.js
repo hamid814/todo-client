@@ -1,18 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthState';
 
 import './login.scss';
 
 const Login = (props) => {
-  const { isAuthenicated, login } = useContext(AuthContext);
+  const alertElem = useRef('');
+
+  const { isAuthenicated, login, error, clearError } = useContext(AuthContext);
 
   useEffect(() => {
     if (isAuthenicated) {
       props.history.push(process.env.PUBLIC_URL + '/');
     }
+
+    if (error) {
+      setAlert(error, 3000);
+    }
     // eslint-disable-next-line
-  }, [isAuthenicated]);
+  }, [error, isAuthenicated]);
 
   const [values, setValues] = useState({
     email: '',
@@ -30,6 +36,15 @@ const Login = (props) => {
     e.preventDefault();
 
     login(values);
+  };
+
+  const setAlert = (msg, time) => {
+    alertElem.current.innerText = msg;
+
+    setTimeout(() => {
+      alertElem.current.innerHTML = '';
+      clearError();
+    }, time);
   };
 
   return (
@@ -60,6 +75,7 @@ const Login = (props) => {
           <input type="submit" value="Login" />
         </div>
       </form>
+      <div ref={alertElem} className="alert"></div>
       <div>
         don't have an account?
         <Link to={process.env.PUBLIC_URL + '/register'}>register</Link>
