@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { TodoContext } from '../../context/todo/TodoState';
 
 const TodoItem = ({ todo }) => {
-  const { deleteTodo, editTodo } = useContext(TodoContext);
+  const { deleteTodo, setCurrent } = useContext(TodoContext);
 
   const onDelete = () => {
     deleteTodo(todo._id);
   };
 
   const onEdit = () => {
-    editTodo(todo._id);
+    setCurrent(todo);
   };
 
   return (

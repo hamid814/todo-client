@@ -1,32 +1,53 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TodoContext } from '../../context/todo/TodoState';
 
 import './addtodo.scss';
 
 const AddTodo = () => {
-  const { addTodo } = useContext(TodoContext);
+  const { addTodo, updateTodo, current, clearCurrent } = useContext(
+    TodoContext
+  );
 
-  const [values, setValues] = useState({
-    text: '',
-    done: false,
-  });
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    if (current) {
+      setText(current.text);
+    }
+    // eslint-disable-next-line
+  }, [current]);
 
   const onChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
+    setText(e.target.value);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    addTodo(values);
+    if (!current) {
+      addTodo({
+        text,
+      });
 
-    setValues({
-      text: '',
-      done: false,
-    });
+      setText('');
+    } else {
+      await updateTodo(
+        {
+          text,
+          done: current.done,
+        },
+        current._id
+      );
+
+      setText('');
+
+      clearCurrent();
+    }
+  };
+
+  const cancelEdit = () => {
+    clearCurrent();
+    setText('');
   };
 
   return (
@@ -36,13 +57,15 @@ const AddTodo = () => {
         <div className="form-control">
           <input
             type="text"
-            value={values.text}
+            placeholder="add todo here"
+            value={text}
             name="text"
             onChange={onChange}
           />
         </div>
         <div className="form-control">
-          <input type="submit" value="Add todo" />
+          <input type="submit" value={current ? 'Update' : 'Add'} />
+          {current && <button onClick={cancelEdit}>cancel</button>}
         </div>
       </form>
     </div>

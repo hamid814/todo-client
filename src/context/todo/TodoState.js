@@ -4,6 +4,7 @@ import TodoReducer from './TodoReducer';
 
 const initialState = {
   todos: [],
+  current: null,
 };
 
 export const TodoContext = createContext(initialState);
@@ -56,7 +57,7 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
-  const editTodo = (id) => {
+  const updateTodo = async (newTodo, _id) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -64,6 +65,12 @@ export const TodoProvider = ({ children }) => {
     };
 
     try {
+      const res = await axios.put(`/api/todos/${_id}`, newTodo, config);
+
+      await dispatch({
+        type: 'update-todo',
+        payload: res.data.data,
+      });
     } catch (err) {
       console.log(err.response);
     }
@@ -75,15 +82,31 @@ export const TodoProvider = ({ children }) => {
     });
   };
 
+  const setCurrent = (todo) => {
+    dispatch({
+      type: 'set-current',
+      payload: todo,
+    });
+  };
+
+  const clearCurrent = () => {
+    dispatch({
+      type: 'clear-current',
+    });
+  };
+
   return (
     <TodoContext.Provider
       value={{
         todos: state.todos,
+        current: state.current,
         getTodos,
         addTodo,
         deleteTodo,
-        editTodo,
+        updateTodo,
         clearData,
+        setCurrent,
+        clearCurrent,
       }}
     >
       {children}
