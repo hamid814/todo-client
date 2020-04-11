@@ -3,7 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { AuthProvider } from './context/auth/AuthState';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const StateContainer = () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};
+
+ReactDOM.render(<StateContainer />, document.getElementById('root'));
 
 serviceWorker.unregister();

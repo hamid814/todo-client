@@ -13,13 +13,16 @@ const App = () => {
         <div className="container">
           <Switch>
             <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />
-            <Route path={`${process.env.PUBLIC_URL}/register`} component={Register} />
+            <Route
+              path={`${process.env.PUBLIC_URL}/register`}
+              component={Register}
+            />
             <Route path={`${process.env.PUBLIC_URL}/login`} component={Login} />
           </Switch>
         </div>
       </>
     </Router>
   );
-}
+};
 
 export default App;

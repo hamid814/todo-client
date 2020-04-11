@@ -17,9 +17,8 @@
       height: 40px;
       position: relative;
       margin-top: 25px;
-      
+
       &:focus-within {
-        
         label {
           transform: translateX(10px) translateY(-10px) scale(1);
           background-color: #333;
@@ -28,7 +27,7 @@
           color: rgb(249, 75, 255);
         }
       }
-      
+
       label {
         position: absolute;
         display: block;
@@ -39,9 +38,10 @@
         color: #999;
         background-color: transparent;
         padding: 0 5px;
-        transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+        transition: color 0.3s ease, transform 0.3s ease,
+          background-color 0.3s ease;
       }
-      
+
       input {
         position: absolute;
         top: 0;
@@ -54,23 +54,23 @@
         background-color: transparent;
         color: #eee;
         z-index: 1;
-        
-        &:not([value=""]) + label {
+
+        &:not([value='']) + label {
           transform: translateX(10px) translateY(-10px) scale(1);
           background-color: #333;
           padding: 0px 5px;
           z-index: 2;
           color: rgb(249, 75, 255);
         }
-        
+
         &:focus {
           outline: none;
         }
-        
-        &[type="submit"] {
+
+        &[type='submit'] {
           cursor: pointer;
           transition: transform 0.3s ease, border-color 0.3s ease;
-          
+
           &:hover {
             transform: scale(1.02);
             border-color: rgb(249, 75, 255);
