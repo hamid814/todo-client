@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import './register.scss';
+import './login.scss';
 
-const Register = () => {
+const Login = () => {
   const [values, setValues] = useState({
-    name: '',
     email: '',
     password: ''
   })
@@ -22,8 +21,7 @@ const Register = () => {
     e.preventDefault();
     
     try {
-      const res = await axios.post('/api/auth/register', {
-        name: values.name,
+      const res = await axios.post('/api/auth/login', {
         email: values.email,
         password: values.password
       });
@@ -35,15 +33,11 @@ const Register = () => {
   }
   
   return (
-    <div className='register'>
+    <div className='login'>
       <h1>
-        Account <span className='blue'>Register</span>
+        Account <span className='blue'>Login</span>
       </h1>
       <form onSubmit={onSubmit}>
-        <div className="form-control">
-          <input type="text" value={values.name} onChange={onChange} name="name" />
-          <label>name</label>
-        </div>
         <div className="form-control">
           <input type="text" value={values.email} onChange={onChange} name="email" />
           <label>email</label>
@@ -53,17 +47,17 @@ const Register = () => {
           <label>passowrd</label>
         </div>
         <div className="form-control">
-          <input type="submit" value="Reginster"/>
+          <input type="submit" value="Login"/>
         </div>
       </form>
       <div>
-        already have an account?
-        <Link to={process.env.PUBLIC_URL + '/login'}>
-          login
+        don't have an account?
+        <Link to={process.env.PUBLIC_URL + '/register'}>
+          register
         </Link>
       </div>
     </div>
   )
 }
 
-export default Register
+export default Login
